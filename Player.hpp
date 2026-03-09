@@ -2,6 +2,7 @@
 #define PLAYER_H
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <SFML\System.hpp>
 
 class Player
 {
@@ -12,6 +13,9 @@ public:
     void draw(sf::RenderWindow& window);
 
 private:
+    int spriteX;
+    int spriteY;
+    sf::Clock clock;
     sf::Texture texture;
     std::optional<sf::Sprite> sprite;
     std::string name;
