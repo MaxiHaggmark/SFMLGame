@@ -28,6 +28,7 @@ private:
     sf::RenderWindow window;
     Player player {"bert"};
     Weapon sword{ "Iron sword", 10 };
+    std::string direction{"down"};
 
     void handleEvents()
     {
@@ -40,31 +41,34 @@ private:
 
     void update()
     {
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
-        {
-            // left mouse button is pressed: swing sword
-            sword.swing();
+        bool moved = false;
+
+
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+            player.attack();
+
         }
+
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::D))
         {
-            // right key is pressed: move our character
-            player.move(1.f, 0.f);
+            player.move(1.f, 0.f);  moved = true;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::A))
         {
-            // left key is pressed: move our character
-            player.move(-1.f, 0.f);
+            player.move(-1.f, 0.f); moved = true;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::W))
         {
-            // up key is pressed: move our character
-            player.move(0.f, -1.f);
+            player.move(0.f, -1.f); moved = true;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::S))
         {
-            // down key is pressed: move our character
-            player.move(0.f, 1.f);
+            player.move(0.f, 1.f);  moved = true;
         }
+
+        player.setMoving(moved);
+
+        
     }
 
     void render()
