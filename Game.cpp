@@ -4,6 +4,7 @@
 #include <string>
 #include "Player.hpp"
 #include "Weapon.hpp"
+#include "Enemy.hpp"
 
 class Game
 {
@@ -27,6 +28,7 @@ public:
 private:
     sf::RenderWindow window;
     Player player {"bert"};
+    Enemy enemy{ "hej", 10};
     Weapon sword{ "Iron sword", 10 };
     std::string direction{"down"};
 
@@ -42,7 +44,11 @@ private:
     void update()
     {
         bool moved = false;
-
+        if (player.getSprite()->getPosition().x == enemy.getSprite()->getPosition().x - 2 && player.getSprite()->getPosition().y == enemy.getSprite()->getPosition().y - 2)
+        {
+            enemy.attack(player);
+        }
+        
 
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
             player.attack();
@@ -65,6 +71,14 @@ private:
         {
             player.move(0.f, 1.f);  moved = true;
         }
+        const float margin = 100.f;
+        const float dx = player.getSprite()->getPosition().x - enemy.getSprite()->getPosition().x;
+        const float dy = player.getSprite()->getPosition().y - enemy.getSprite()->getPosition().y;
+        const float dist2 = dx * dx + dy * dy;
+
+        if (!(dist2 <= margin * margin)) {
+            enemy.move(player);
+        }
 
         player.setMoving(moved);
 
@@ -75,6 +89,7 @@ private:
     {
         window.clear();
         player.draw(window);
+        enemy.draw(window);
         window.display();
     }
 };

@@ -4,7 +4,7 @@
 
 
 Player::Player(std::string name_)
-    : name{ name_ }, hp{ 100 }, isMoving { false }
+    : name{ name_ }, isMoving { false }
 {
     idleTexture.loadFromFile("idleplayer.png");
     attackingTexture.loadFromFile("attackingplayer.png");
@@ -173,4 +173,14 @@ bool Player::getMoving() const
 bool Player::setAttacking(bool a)
 {
     return isAttacking = a;
+}
+
+std::optional<sf::Sprite> Player::getSprite() const
+{
+    return sprite;
+}
+
+void Player::setHp(int dmg)
+{
+    hp -= dmg;
 }

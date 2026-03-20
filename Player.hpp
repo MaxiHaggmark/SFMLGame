@@ -10,10 +10,12 @@ public:
     Player(std::string name);
     bool setMoving(bool a);
 	bool getMoving() const;
+    std::optional<sf::Sprite> getSprite() const;
     bool setAttacking(bool a);
     void move(float x, float y);
     void draw(sf::RenderWindow& window);
     void attack();
+    void setHp(int dmg);
 
 private:
     std::vector<sf::IntRect> rightFrames;
@@ -40,7 +42,7 @@ private:
     sf::Texture idleTexture;
     std::optional<sf::Sprite> sprite;
     std::string name;
-    int hp;
+    int hp = 100;
     bool isAttacking = false;
     bool isMoving;
     bool wasMoving = false;
