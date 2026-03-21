@@ -11,11 +11,14 @@ public:
     bool setMoving(bool a);
 	bool getMoving() const;
     std::optional<sf::Sprite> getSprite() const;
+    sf::Sprite* getSpritePtr();
+    const sf::Sprite* getSpritePtr() const;
     bool setAttacking(bool a);
     void move(float x, float y);
     void draw(sf::RenderWindow& window);
     void attack();
     void setHp(int dmg);
+    sf::IntRect calculateHealthBar();
 
 private:
     std::vector<sf::IntRect> rightFrames;
@@ -37,9 +40,11 @@ private:
     int spriteY;
     sf::Clock clock;
     sf::Texture texture;
+    sf::Texture healthBarTexture;
     sf::Texture attackingTexture;
     sf::Texture movingTexture;
     sf::Texture idleTexture;
+    std::optional<sf::Sprite> healthBar;
     std::optional<sf::Sprite> sprite;
     std::string name;
     int hp = 100;

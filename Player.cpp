@@ -10,12 +10,18 @@ Player::Player(std::string name_)
     attackingTexture.loadFromFile("attackingplayer.png");
     movingTexture.loadFromFile("movingplayer.png");
     texture.loadFromFile("idleplayer.png");
+    healthBarTexture.loadFromFile("healthbar.png");
     direction = "down";
     spriteX = 19;
     spriteY = 20;
+
     sprite = sf::Sprite(texture, sf::IntRect({ spriteX, spriteY }, { 25, 25 }));
+    healthBar = sf::Sprite(healthBarTexture);
+    healthBar->setScale({ 3, 1 });
+    healthBar->setPosition({ 0, 0 });
     sprite->setPosition({ 500.f, 500.f });
     sprite->setScale({3, 3});
+
     //Idleframes
     downFrames = {
     sf::IntRect({19,20},{20,28}),  sf::IntRect({83,20},{20,28}),
@@ -94,6 +100,14 @@ Player::Player(std::string name_)
     };
 }
 
+sf::IntRect Player::calculateHealthBar()
+{
+    int width = static_cast<int>(200.f * (hp / 100.0f));
+    if (width < 0) width = 0;
+    if (width > 400) width = 200;
+    return sf::IntRect({}, { width, 40 });
+}
+
 void Player::draw(sf::RenderWindow& window)
 {
     if (wasMoving != isMoving)
@@ -139,6 +153,9 @@ void Player::draw(sf::RenderWindow& window)
         clock.restart();
 
     }
+    if (healthBar) healthBar->setTextureRect(calculateHealthBar());
+    if (healthBar) window.draw(*healthBar);
+
     if (sprite) window.draw(*sprite);
 }
 
@@ -183,4 +200,14 @@ std::optional<sf::Sprite> Player::getSprite() const
 void Player::setHp(int dmg)
 {
     hp -= dmg;
+}
+
+sf::Sprite* Player::getSpritePtr()
+{
+    return sprite ? &*sprite : nullptr;
+}
+
+const sf::Sprite* Player::getSpritePtr() const
+{
+    return sprite ? &*sprite : nullptr;
 }

@@ -41,13 +41,12 @@ private:
         }
     }
 
+    
+
     void update()
     {
-        bool moved = false;
-        if (player.getSprite()->getPosition().x == enemy.getSprite()->getPosition().x - 2 && player.getSprite()->getPosition().y == enemy.getSprite()->getPosition().y - 2)
-        {
-            enemy.attack(player);
-        }
+        bool pmoved = false;
+        bool emoved = false;
         
 
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
@@ -57,30 +56,37 @@ private:
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::D))
         {
-            player.move(1.f, 0.f);  moved = true;
+            player.move(1.f, 0.f);  pmoved = true;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::A))
         {
-            player.move(-1.f, 0.f); moved = true;
+            player.move(-1.f, 0.f); pmoved = true;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::W))
         {
-            player.move(0.f, -1.f); moved = true;
+            player.move(0.f, -1.f); pmoved = true;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::S))
         {
-            player.move(0.f, 1.f);  moved = true;
+            player.move(0.f, 1.f);  pmoved = true;
         }
-        const float margin = 100.f;
+        const float margin = 55.f;
         const float dx = player.getSprite()->getPosition().x - enemy.getSprite()->getPosition().x;
         const float dy = player.getSprite()->getPosition().y - enemy.getSprite()->getPosition().y;
         const float dist2 = dx * dx + dy * dy;
 
         if (!(dist2 <= margin * margin)) {
             enemy.move(player);
+            emoved = true;
         }
 
-        player.setMoving(moved);
+        else
+        {
+            enemy.attack(player);
+        }
+
+        player.setMoving(pmoved);
+        enemy.setMoving(emoved);
 
         
     }
